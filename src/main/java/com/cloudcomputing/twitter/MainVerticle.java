@@ -34,12 +34,13 @@ public class MainVerticle extends AbstractVerticle {
     String phrase = routingContext.request().getParam("phrase");
     String hashtag = routingContext.request().getParam("hashtag");
     HttpServerResponse response = routingContext.response();
+    TweetHandler th = new TweetHandler();
     logger.info(user_id);
     logger.info(type);
     logger.info(phrase);
     logger.info(hashtag);
     String resp = "TeamCloud,341275167549\n";
-    resp += "INVALID";
+    resp += th.parse_search(user_id);
     response.putHeader("content-type", "application/json").end(resp.trim());
   }
 
