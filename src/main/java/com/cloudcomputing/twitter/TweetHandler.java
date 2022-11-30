@@ -33,7 +33,7 @@ public class TweetHandler {
           RowSet<Row> result = ar.result();
           System.out.println("Got " + result.size() + " rows ");
           for (Row row : result) {
-            System.out.println("row " + row);
+            System.out.println("User " + row.getString(0));
           }
         } else {
           System.out.println("Failure: " + ar.cause().getMessage());
