@@ -12,10 +12,10 @@ public class TweetHandler {
   Vertx vertx = Vertx.vertx();
   MySQLConnectOptions connectOptions = new MySQLConnectOptions()
     .setPort(3306)
-    .setHost("testdb.cz0wq66lu07w.us-east-1.rds.amazonaws.com")
-    .setDatabase("testdb")
+    .setHost("m3db.c2dez1aoybbc.us-east-1.rds.amazonaws.com")
+    .setDatabase("m3")
     .setUser("admin")
-    .setPassword("mh20may1996");
+    .setPassword("yyp31234");
 
   // Pool options
   PoolOptions poolOptions = new PoolOptions()
@@ -28,7 +28,7 @@ public class TweetHandler {
     String values = (user_id +","+ type+","+phrase+","+hashtag);
     System.out.println(values);
     client
-      .query("SELECT * FROM final")
+      .query("SELECT * FROM Data WHERE id2 = 582276888")
       .execute(ar -> {
         if (ar.succeeded()) {
           RowSet<Row> result = ar.result();
