@@ -27,7 +27,7 @@ public class TweetHandler {
   public String parse_search(String input) {
     System.out.println(input);
     client
-      .query("SELECT * FROM 'final'")
+      .query("SELECT * FROM final")
       .execute(ar -> {
         if (ar.succeeded()) {
           RowSet<Row> result = ar.result();
