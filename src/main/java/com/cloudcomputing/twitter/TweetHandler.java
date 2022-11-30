@@ -28,7 +28,7 @@ public class TweetHandler {
     String values = (user_id +","+ type+","+phrase+","+hashtag);
     System.out.println(values);
     client
-      .query("SELECT * FROM Data WHERE id2 = 582276888")
+      .query("SELECT * FROM Data WHERE uid2 = 582276888")
       .execute(ar -> {
         if (ar.succeeded()) {
           RowSet<Row> result = ar.result();
