@@ -40,7 +40,7 @@ public class MainVerticle extends AbstractVerticle {
     logger.info(phrase);
     logger.info(hashtag);
     String resp = "TeamCloud,341275167549\n";
-    resp += th.parse_search(user_id);
+    resp += th.parse_search(user_id,type,phrase,hashtag);
     response.putHeader("content-type", "application/json").end(resp.trim());
   }
 

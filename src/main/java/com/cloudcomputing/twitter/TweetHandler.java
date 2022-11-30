@@ -24,8 +24,9 @@ public class TweetHandler {
   // Create the client pool
   SqlClient client = MySQLPool.pool(vertx, connectOptions, poolOptions);
 //  MySQLPool pool = MySQLPool.pool(vertx, connectOptions, poolOptions);
-  public String parse_search(String input) {
-    System.out.println(input);
+  public String parse_search(String user_id,String type, String phrase, String hashtag) {
+    String values = (user_id +","+ type+","+phrase+","+hashtag);
+    System.out.println(values);
     client
       .query("SELECT * FROM final")
       .execute(ar -> {
@@ -33,32 +34,13 @@ public class TweetHandler {
           RowSet<Row> result = ar.result();
           System.out.println("Got " + result.size() + " rows ");
           for (Row row : result) {
-            System.out.println("User " + row.getString(0));
+            System.out.println("Row " + row);
           }
         } else {
           System.out.println("Failure: " + ar.cause().getMessage());
         }
       });
-//    pool.getConnection().compose(conn -> {
-//      System.out.println("Got a connection from the pool");
-//
-//      // All operations execute on the same connection
-//      return conn
-//        .query("SELECT * FROM 'final'")
-//        .execute()
-//        .onComplete(ar -> {
-//          // Release the connection to the pool
-//          conn.close();
-//        });
-//    }).onComplete(ar -> {
-//      if (ar.succeeded()) {
-//
-//        System.out.println("Done");
-//      } else {
-//        System.out.println("Something went wrong " + ar.cause().getMessage());
-//      }
-//    });
 
-    return input;
+    return values;
   }
 }
