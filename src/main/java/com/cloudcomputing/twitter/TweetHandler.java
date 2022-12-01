@@ -33,7 +33,9 @@ public class TweetHandler {
         if (ar.succeeded()) {
           RowSet<Row> result = ar.result();
           Row row1 = result.iterator().next();
-          System.out.println("First result: " + row1.getInteger(0));
+          System.out.println("uid1: " + row1.getInteger(0));
+          System.out.println("uid2: " + row1.getInteger(1));
+          System.out.println("uid2: " + row1.getInteger(1));
           System.out.println("Got " + result.size() + " rows ");
 //          for (Row row : result) {
 //            System.out.println("Row " + row);
