@@ -62,7 +62,7 @@ public class TweetHandler {
         }
       });
     client
-      .query("SELECT * FROM Data WHERE uid2= "+user_id+" or uid1= "+user_id+";")
+      .query("SELECT * FROM Data WHERE uid2= "+user_id+" or uid1= "+user_id+"and (uid2 not IS NOT NULL or uid1 IS NOT NULL) ;")
       .execute(br ->{
         if (br.succeeded()){
           RowSet<Row> result = br.result();
@@ -71,6 +71,7 @@ public class TweetHandler {
             int uid2 = row.getInteger(1);
             String all_hashtags_1 = row.getString(7);
             String all_hashtags_2 = row.getString(9);
+
             List<String> hashtags_1 = Arrays.asList(all_hashtags_1.split(" "));
             List<String> hashtags_2 = Arrays.asList(all_hashtags_2.split(" "));
             System.out.println("OUTPUT LIST 1: "+hashtags_1);
