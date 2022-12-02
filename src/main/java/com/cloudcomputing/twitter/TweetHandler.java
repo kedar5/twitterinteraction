@@ -49,9 +49,9 @@ public class TweetHandler {
           System.out.println("all_hashtags_2: " + row1.getString(9));
 
           System.out.println("Got " + result.size() + " rows ");
-          for (Row row : result) {
-            System.out.println("Row " + row.getInteger(0));
-          }
+//          for (Row row : result) {
+//            System.out.println("Row " + row.getInteger(0));
+//          }
         } else {
           System.out.println("Failure: " + ar.cause().getMessage());
         }
@@ -64,8 +64,11 @@ public class TweetHandler {
           for (Row row : result) {
             String all_hashtags_1 = row.getString(7);
             String all_hashtags_2 = row.getString(9);
-            List<String> hashtags_1 = Arrays.asList(all_hashtags_1.split("\t"));
-            System.out.println("OUTPUT LIST : "+hashtags_1);
+            List<String> hashtags_1 = Arrays.asList(all_hashtags_1.split(" "));
+            List<String> hashtags_2 = Arrays.asList(all_hashtags_2.split(" "));
+            System.out.println("OUTPUT LIST 1: "+hashtags_1);
+            System.out.println("OUTPUT LIST 2: "+hashtags_2);
+            
           }
         }
       });
