@@ -71,8 +71,8 @@ public class TweetHandler {
             int uid2 = row.getInteger(1);
             String all_hashtags_1 = row.getString(7);
             String all_hashtags_2 = row.getString(9);
-            List<String> hashtags_1 = Arrays.asList(all_hashtags_1.split(" ").toString().toLowerCase(Locale.ENGLISH));
-            List<String> hashtags_2 = Arrays.asList(all_hashtags_2.split(" ").toString().toLowerCase(Locale.ENGLISH));
+            List<String> hashtags_1 = Arrays.asList(all_hashtags_1.split(" "));
+            List<String> hashtags_2 = Arrays.asList(all_hashtags_2.split(" "));
             System.out.println("OUTPUT LIST 1: "+hashtags_1);
             System.out.println("OUTPUT LIST 2: "+hashtags_2);
             int counter =0;
