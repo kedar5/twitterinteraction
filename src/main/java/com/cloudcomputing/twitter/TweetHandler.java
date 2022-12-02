@@ -105,6 +105,7 @@ public class TweetHandler {
             }
           }
         }
+        System.out.println("HashMap in: "+Arrays.asList(hashing_score_map));
       });
     System.out.println("HashMap : "+Arrays.asList(hashing_score_map));
     return values;
