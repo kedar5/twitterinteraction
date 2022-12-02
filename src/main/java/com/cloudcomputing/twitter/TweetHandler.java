@@ -62,11 +62,10 @@ public class TweetHandler {
         }
       });
     client
-      .query("SELECT * FROM Data WHERE uid2= "+user_id+" or uid1= "+user_id+"and uid2 is NOT " +
-        "NULL or uid1 is NOT NULL ;")
+      .query("SELECT * FROM Data WHERE uid2= "+user_id+" or uid1= "+user_id+"and uid2 IS NOT NULL or uid1 IS NOT NULL ;")
       .execute(br ->{
         if (br.succeeded()){
-          RowSet<Row> result = br.result(
+          RowSet<Row> result = br.result();
           for (Row row : result) {
             int uid1 = row.getInteger(0);
             int uid2 = row.getInteger(1);
