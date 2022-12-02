@@ -93,13 +93,15 @@ public class TweetHandler {
             }
             if (String.valueOf(uid1).equals(user_id)){
               hashing_score_map.put(String.valueOf(uid2),hashtag_score);
+              System.out.println("CORRECT" + String.valueOf(uid2) +","+ hashtag_score);
             }
             else if (String.valueOf(uid2).equals(user_id)){
               hashing_score_map.put(String.valueOf(uid1),hashtag_score);
+              System.out.println("CORRECT" + String.valueOf(uid1) +","+ hashtag_score);
             }
             else{
-              System.out.println("Incorrect" + String.valueOf(uid2) +","+ hashtag_score +","+ String.valueOf(uid1));
-              
+              System.out.println("INCORRECT" + String.valueOf(uid2) +","+ hashtag_score +","+ String.valueOf(uid1));
+
             }
           }
         }
