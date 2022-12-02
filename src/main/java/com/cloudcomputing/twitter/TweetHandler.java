@@ -86,7 +86,7 @@ public class TweetHandler {
                   String all_hashtags_2 = row.getString(9);
                   int counter =0;
                   double hashtag_score;
-                  if (all_hashtags_1.equals(null)|| all_hashtags_2.equals(null)){
+                  if (all_hashtags_1 == null|| all_hashtags_2 == null){
                     hashtag_score=1;
                   }
                   else{
