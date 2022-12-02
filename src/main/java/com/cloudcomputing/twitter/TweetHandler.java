@@ -36,7 +36,7 @@ public class TweetHandler {
       .query("SELECT DISTINCT uid1, uid2 FROM Data WHERE uid2=  "+user_id+" or uid1= "+user_id+" ;")
       .execute(ar -> {
         HashMap<String, Integer> hashing_score_map = new HashMap<>();
-        HashMap<String, Integer> interaction_score_map = new HashMap<>();
+        HashMap<String, Double> interaction_score_map = new HashMap<>();
         ArrayList<String> alluserids = new ArrayList<String>();
         if (ar.succeeded()) {
           RowSet<Row> result = ar.result();
@@ -63,12 +63,13 @@ public class TweetHandler {
                   String rt_txt =row.getString(2);
                   String rp_txt =row.getString(2);
                   if (String.valueOf(uid1).equals(u_id) || String.valueOf(uid2).equals(u_id)){
-                    System.out.println("RT TEXTTTTTTTTTTT"+rt_txt);
+                    System.out.println("RT TEXTTTTTTTTTTT"+rt_txt+"\n"+rp_txt);
                     if (!rt_txt.equals("\"\"")){rt_counter++;}
                     else  if (!rp_txt.equals("\"\"")){ rp_counter ++;}
                   }
                 }
-                int interaction_score = (int) log(1 + 2 * rp_counter + rt_counter);
+                System.out.println("Scores : "+rt_counter+","+rp_counter);
+                double interaction_score = log(1 + 2 * rp_counter + rt_counter);
                 interaction_score_map.put(u_id,interaction_score);
               }
             }
