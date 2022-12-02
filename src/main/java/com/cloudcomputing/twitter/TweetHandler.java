@@ -42,19 +42,19 @@ public class TweetHandler {
         if (ar.succeeded()) {
           RowSet<Row> result = ar.result();
           Row row1 = result.iterator().next();
-          System.out.println("uid1: " + row1.getInteger(0));
-          System.out.println("uid2: " + row1.getInteger(1));
-          System.out.println("rt_text: " + row1.getString(2));
-          System.out.println("reply_text: " + row1.getString(3));
-          System.out.println("rt_hashtags: " + row1.getString(4));
-          System.out.println("reply_hashtags: " + row1.getString(5));
-          System.out.println("info_1: " + row1.getString(6));
-          System.out.println("all_hashtags_1: " + row1.getString(7));
-          System.out.println("info_2: " + row1.getString(8));
-          System.out.println("all_hashtags_2: " + row1.getString(9));
-
-          System.out.println("Got " + result.size() + " rows ");
-//          for (Row row : result) {
+//          System.out.println("uid1: " + row1.getInteger(0));
+//          System.out.println("uid2: " + row1.getInteger(1));
+//          System.out.println("rt_text: " + row1.getString(2));
+//          System.out.println("reply_text: " + row1.getString(3));
+//          System.out.println("rt_hashtags: " + row1.getString(4));
+//          System.out.println("reply_hashtags: " + row1.getString(5));
+//          System.out.println("info_1: " + row1.getString(6));
+//          System.out.println("all_hashtags_1: " + row1.getString(7));
+//          System.out.println("info_2: " + row1.getString(8));
+//          System.out.println("all_hashtags_2: " + row1.getString(9));
+//
+//          System.out.println("Got " + result.size() + " rows ");
+////          for (Row row : result) {
 //            System.out.println("Row " + row.getInteger(0));
 //          }
         } else {
