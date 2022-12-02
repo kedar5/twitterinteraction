@@ -35,7 +35,7 @@ public class TweetHandler {
   public String parse_search(String user_id,String type, String phrase, String hashtag) {
     String values = (user_id +","+ type+","+phrase+","+hashtag);
     System.out.println(values);
-    HashMap<String, Integer> hashing_score_map = new HashMap<String, Integer>();
+    HashMap<String, Integer> hashing_score_map = new HashMap<>();
     client
       .query("SELECT * FROM Data WHERE uid2= "+user_id+" or uid1= "+user_id+";")
       .execute(ar -> {
@@ -62,7 +62,7 @@ public class TweetHandler {
         }
       });
     client
-      .query("SELECT * FROM Data WHERE uid2= "+user_id+" or uid1= "+user_id+"and uid2 IS NOT NULL or uid1 IS NOT NULL ;")
+      .query("SELECT * FROM Data WHERE uid2= "+user_id+" and uid2 IS NOT NULL or uid1= "+user_id+" and uid2 IS NOT NULL;")
       .execute(br ->{
         if (br.succeeded()){
           RowSet<Row> result = br.result();
