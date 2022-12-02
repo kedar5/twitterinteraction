@@ -61,7 +61,7 @@ public class TweetHandler {
                   int uid1 = row.getInteger(0);
                   int uid2 = row.getInteger(1);
                   String rt_txt =row.getString(2);
-                  String rp_txt =row.getString(2);
+                  String rp_txt =row.getString(3);
                   if (String.valueOf(uid1).equals(u_id) || String.valueOf(uid2).equals(u_id)){
                     System.out.println("RT TEXTTTTTTTTTTT"+rt_txt+"\n"+rp_txt);
                     if (!rt_txt.equals("\"\"")){rt_counter++;}
@@ -70,6 +70,7 @@ public class TweetHandler {
                 }
                 System.out.println("Scores : "+rt_counter+","+rp_counter);
                 double interaction_score = log(1 + 2 * rp_counter + rt_counter);
+                System.out.println("INTER : "+ interaction_score);
                 interaction_score_map.put(u_id,interaction_score);
               }
             }
