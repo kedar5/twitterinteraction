@@ -84,27 +84,27 @@ public class TweetHandler {
                   int uid2 = row.getInteger(1);
                   String all_hashtags_1 = row.getString(7);
                   String all_hashtags_2 = row.getString(9);
-
-                  List<String> hashtags_1 = Arrays.asList(all_hashtags_1.split(" "));
-                  List<String> hashtags_2 = Arrays.asList(all_hashtags_2.split(" "));
-                  //System.out.println("OUTPUT LIST 1: "+hashtags_1);
-                  //System.out.println("OUTPUT LIST 2: "+hashtags_2);
                   int counter =0;
                   double hashtag_score;
-                  for (String hash: hashtags_1){
-                    if (hashtags_2.contains(hash)){
-                      counter ++;
+                  if (!all_hashtags_1.equals(null)|| !all_hashtags_2.equals(null)){
+                    List<String> hashtags_1 = Arrays.asList(all_hashtags_1.split(" "));
+                    List<String> hashtags_2 = Arrays.asList(all_hashtags_2.split(" "));
+                    for (String hash: hashtags_1){
+                      if (hashtags_2.contains(hash)){
+                        counter ++;
+                      }
+                    }
+                    if (counter > 10){
+                      hashtag_score =  (1 + log(1 + counter - 10));
+                    }
+                    else if (counter >0 && counter < 10){
+                      hashtag_score =1;
+                    }
+                    else{
+                      hashtag_score =1;
                     }
                   }
-                  if (counter > 10){
-                    hashtag_score =  (1 + log(1 + counter - 10));
-                  }
-                  else if (counter >0 && counter < 10){
-                    hashtag_score =1;
-                  }
-                  else{
-                    hashtag_score =1;
-                  }
+                  else{hashtag_score=1;}
                   if (String.valueOf(uid1).equals(user_id)){
                     hashing_score_map.put(String.valueOf(uid2),hashtag_score);
                     //System.out.println("CORRECT" + String.valueOf(uid2) +","+ hashtag_score);
@@ -112,10 +112,6 @@ public class TweetHandler {
                   else if (String.valueOf(uid2).equals(user_id)){
                     hashing_score_map.put(String.valueOf(uid1),hashtag_score);
                     //System.out.println("CORRECT" + String.valueOf(uid1) +","+ hashtag_score);
-                  }
-                  else{
-                    //System.out.println("INCORRECT" + String.valueOf(uid2) +","+ hashtag_score +","+ String.valueOf(uid1));
-
                   }
                 }
               }
