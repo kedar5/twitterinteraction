@@ -97,10 +97,14 @@ public class TweetHandler {
             else if (String.valueOf(uid2).equals(user_id)){
               hashing_score_map.put(String.valueOf(uid1),hashtag_score);
             }
+            else{
+              System.out.println("Incorrect" + String.valueOf(uid2) +","+ hashtag_score +","+ String.valueOf(uid1));
+              
+            }
           }
         }
       });
-    System.out.println(Arrays.asList(hashing_score_map));
+    System.out.println("HashMap : "+Arrays.asList(hashing_score_map));
     return values;
   }
 }
