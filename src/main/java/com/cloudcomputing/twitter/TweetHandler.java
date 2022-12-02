@@ -103,7 +103,7 @@ public class TweetHandler {
                     hashtag_score =1;
                   }
                   else{
-                    hashtag_score =0;
+                    hashtag_score =1;
                   }
                   if (String.valueOf(uid1).equals(user_id)){
                     hashing_score_map.put(String.valueOf(uid2),hashtag_score);
