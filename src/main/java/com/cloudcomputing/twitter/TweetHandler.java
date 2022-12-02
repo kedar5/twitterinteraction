@@ -29,7 +29,7 @@ public class TweetHandler {
   // Create the client pool
   SqlClient client = MySQLPool.pool(vertx, connectOptions, poolOptions);
 //  MySQLPool pool = MySQLPool.pool(vertx, connectOptions, poolOptions);
-  public String parse_search(String user_id,String type, String phrase, String hashtag) {
+  public String parse_search(String user_id,String type, String phrase, String hashtag) throws NullPointerException{
     String values = (user_id +","+ type+","+phrase+","+hashtag);
     System.out.println(values);
     client
@@ -86,7 +86,10 @@ public class TweetHandler {
                   String all_hashtags_2 = row.getString(9);
                   int counter =0;
                   double hashtag_score;
-                  if (!all_hashtags_1.equals(null)|| !all_hashtags_2.equals(null)){
+                  if (all_hashtags_1.equals(null)|| all_hashtags_2.equals(null)){
+                    hashtag_score=1;
+                  }
+                  else{
                     List<String> hashtags_1 = Arrays.asList(all_hashtags_1.split(" "));
                     List<String> hashtags_2 = Arrays.asList(all_hashtags_2.split(" "));
                     for (String hash: hashtags_1){
@@ -97,14 +100,10 @@ public class TweetHandler {
                     if (counter > 10){
                       hashtag_score =  (1 + log(1 + counter - 10));
                     }
-                    else if (counter >0 && counter < 10){
-                      hashtag_score =1;
-                    }
                     else{
                       hashtag_score =1;
                     }
                   }
-                  else{hashtag_score=1;}
                   if (String.valueOf(uid1).equals(user_id)){
                     hashing_score_map.put(String.valueOf(uid2),hashtag_score);
                     //System.out.println("CORRECT" + String.valueOf(uid2) +","+ hashtag_score);
