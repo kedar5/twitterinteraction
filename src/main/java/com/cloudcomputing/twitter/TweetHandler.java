@@ -35,7 +35,7 @@ public class TweetHandler {
     client
       .query("SELECT DISTINCT uid1, uid2 FROM Data WHERE uid2=  "+user_id+" or uid1= "+user_id+" ;")
       .execute(ar -> {
-        HashMap<String, Integer> hashing_score_map = new HashMap<>();
+        HashMap<String, Double> hashing_score_map = new HashMap<>();
         HashMap<String, Double> interaction_score_map = new HashMap<>();
         ArrayList<String> alluserids = new ArrayList<String>();
         if (ar.succeeded()) {
@@ -63,20 +63,20 @@ public class TweetHandler {
                   String rt_txt =row.getString(2);
                   String rp_txt =row.getString(3);
                   if (String.valueOf(uid1).equals(u_id) || String.valueOf(uid2).equals(u_id)){
-                    System.out.println("RT TEXTTTTTTTTTTT"+rt_txt+"\n"+rp_txt);
+                    //System.out.println("RT TEXTTTTTTTTTTT"+rt_txt+"\n"+rp_txt);
                     if (!rt_txt.equals("\"\"")){rt_counter++;}
                     else  if (!rp_txt.equals("\"\"")){ rp_counter ++;}
                   }
                 }
-                System.out.println("Scores : "+rt_counter+","+rp_counter);
+                //System.out.println("Scores : "+rt_counter+","+rp_counter);
                 double interaction_score = log(1 + 2 * rp_counter + rt_counter);
-                System.out.println("INTER : "+ interaction_score);
+                //System.out.println("INTER : "+ interaction_score);
                 interaction_score_map.put(u_id,interaction_score);
               }
             }
             System.out.println("Interaction HashMap: "+Arrays.asList(interaction_score_map));
-          });
-          client.query("SELECT * FROM Data WHERE uid2= "+user_id+" and uid2 IS NOT NULL or uid1= "+user_id+" and uid2 IS NOT NULL;").execute(br ->{
+            //return interaction_score_map;
+            client.query("SELECT * FROM Data WHERE uid2= "+user_id+" and uid2 IS NOT NULL or uid1= "+user_id+" and uid2 IS NOT NULL;").execute(br ->{
               if (br.succeeded()){
                 RowSet<Row> result3 = br.result();
                 for (Row row : result3) {
@@ -87,17 +87,17 @@ public class TweetHandler {
 
                   List<String> hashtags_1 = Arrays.asList(all_hashtags_1.split(" "));
                   List<String> hashtags_2 = Arrays.asList(all_hashtags_2.split(" "));
-                  System.out.println("OUTPUT LIST 1: "+hashtags_1);
-                  System.out.println("OUTPUT LIST 2: "+hashtags_2);
+                  //System.out.println("OUTPUT LIST 1: "+hashtags_1);
+                  //System.out.println("OUTPUT LIST 2: "+hashtags_2);
                   int counter =0;
-                  int hashtag_score;
+                  double hashtag_score;
                   for (String hash: hashtags_1){
                     if (hashtags_2.contains(hash)){
                       counter ++;
                     }
                   }
                   if (counter > 10){
-                    hashtag_score = (int) (1 + log(1 + counter - 10));
+                    hashtag_score =  (1 + log(1 + counter - 10));
                   }
                   else if (counter >0 && counter < 10){
                     hashtag_score =1;
@@ -107,20 +107,23 @@ public class TweetHandler {
                   }
                   if (String.valueOf(uid1).equals(user_id)){
                     hashing_score_map.put(String.valueOf(uid2),hashtag_score);
-                    System.out.println("CORRECT" + String.valueOf(uid2) +","+ hashtag_score);
+                    //System.out.println("CORRECT" + String.valueOf(uid2) +","+ hashtag_score);
                   }
                   else if (String.valueOf(uid2).equals(user_id)){
                     hashing_score_map.put(String.valueOf(uid1),hashtag_score);
-                    System.out.println("CORRECT" + String.valueOf(uid1) +","+ hashtag_score);
+                    //System.out.println("CORRECT" + String.valueOf(uid1) +","+ hashtag_score);
                   }
                   else{
-                    System.out.println("INCORRECT" + String.valueOf(uid2) +","+ hashtag_score +","+ String.valueOf(uid1));
+                    //System.out.println("INCORRECT" + String.valueOf(uid2) +","+ hashtag_score +","+ String.valueOf(uid1));
 
                   }
                 }
               }
               System.out.println("HashMap in: "+Arrays.asList(hashing_score_map));
+              // hashtag score loop
             });
+          // interaction score loop
+          });
 
         } else {
           System.out.println("Failure: " + ar.cause().getMessage());
