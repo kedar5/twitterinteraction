@@ -116,14 +116,16 @@ public class TweetHandler {
               }
               System.out.println("HashMap in: "+Arrays.asList(hashing_score_map));
               // hashtag score loop
+              client.close();
             });
           // interaction score loop
+            client.close();
           });
 
         } else {
           System.out.println("Failure: " + ar.cause().getMessage());
         }
-
+        client.close();
       });
 
     return values;
