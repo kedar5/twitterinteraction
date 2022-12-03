@@ -30,14 +30,18 @@ public class TweetHandler {
   SqlClient client = MySQLPool.pool(vertx, connectOptions, poolOptions);
 //  MySQLPool pool = MySQLPool.pool(vertx, connectOptions, poolOptions);
   public String parse_search(String user_id,String type1, String phrase, String hashtag) throws NullPointerException{
+    String printout = "";
     String values = (user_id +","+ type1+","+phrase+","+hashtag);
     System.out.println(values);
+    HashMap<String, Double> hashing_score_map = new HashMap<>();
+    HashMap<String, Double> interaction_score_map = new HashMap<>();
+    HashMap<String, Double> keyword_score_map = new HashMap<>();
+    HashMap<String, Double> final_score_map = new HashMap<>();
+    HashMap<String, List<String>> outputmap = new HashMap<>();
     client
       .query("SELECT DISTINCT uid1, uid2 FROM Data WHERE uid2=  "+user_id+" or uid1= "+user_id+" ;")
       .execute(ar -> {
-        HashMap<String, Double> hashing_score_map = new HashMap<>();
-        HashMap<String, Double> interaction_score_map = new HashMap<>();
-        HashMap<String, Double> keyword_score_map = new HashMap<>();
+
 
         ArrayList<String> alluserids = new ArrayList<String>();
         if (ar.succeeded()) {
@@ -65,14 +69,14 @@ public class TweetHandler {
                   String rt_txt =row.getString(2);
                   String rp_txt =row.getString(3);
                   if (String.valueOf(uid1).equals(u_id) || String.valueOf(uid2).equals(u_id)){
-                    System.out.println("RT TEXTTTTTTTTTTT"+rt_txt+"\n"+rp_txt);
+                    //System.out.println("RT TEXTTTTTTTTTTT"+rt_txt+"\n"+rp_txt);
                     if (!rt_txt.equals("\"\"")){rt_counter++;}
                     else  if (!rp_txt.equals("\"\"")){ rp_counter ++;}
                   }
                 }
-                System.out.println("Scores : "+rt_counter+","+rp_counter);
+                //System.out.println("Scores : "+rt_counter+","+rp_counter);
                 double interaction_score = log(1 + 2 * rp_counter + rt_counter);
-                System.out.println("INTER : "+ interaction_score);
+                //System.out.println("INTER : "+ interaction_score);
                 interaction_score_map.put(u_id,interaction_score);
               }
             }
@@ -125,44 +129,71 @@ public class TweetHandler {
                   String all_hashtags_1 = row.getString(7);
                   String all_hashtags_2 = row.getString(9);
                   if (type1.equals("reply")){
-                    double keyword_score = phrasechecker(rp_txt,phrase,user_id,uid1,uid2,all_hashtags_1,all_hashtags_2,hashtag,info_1,info_2 );
+                    List<String> keywordList = phrasechecker(rp_txt,phrase,user_id,uid1,uid2,all_hashtags_1,all_hashtags_2,hashtag,info_1,info_2 );
+                    double keyword_score= Double.valueOf(keywordList.get(0));
                     if (String.valueOf(uid1).equals(user_id)){
                       keyword_score_map.put(String.valueOf(uid2),keyword_score);
                       //System.out.println("CORRECT" + String.valueOf(uid2) +","+ hashtag_score);
+                      outputmap.put(String.valueOf(uid2),keywordList);
                     }
                     else if (String.valueOf(uid2).equals(user_id)){
                       keyword_score_map.put(String.valueOf(uid1),keyword_score);
                       //System.out.println("CORRECT" + String.valueOf(uid1) +","+ hashtag_score);
+                      outputmap.put(String.valueOf(uid2),keywordList);
                     }
                   }
                   else if (type1.equals("retweet")){
-                    double keyword_score = phrasechecker(rt_txt,phrase,user_id,uid1,uid2,all_hashtags_1,all_hashtags_2,hashtag,info_1,info_2);
+                    List<String> keywordList = phrasechecker(rt_txt,phrase,user_id,uid1,uid2,all_hashtags_1,all_hashtags_2,hashtag,info_1,info_2);
+                    double keyword_score= Double.valueOf(keywordList.get(0));
                     if (String.valueOf(uid1).equals(user_id)){
                       keyword_score_map.put(String.valueOf(uid2),keyword_score);
+                      outputmap.put(String.valueOf(uid2),keywordList);
                       //System.out.println("CORRECT" + String.valueOf(uid2) +","+ hashtag_score);
                     }
                     else if (String.valueOf(uid2).equals(user_id)){
                       keyword_score_map.put(String.valueOf(uid1),keyword_score);
+                      outputmap.put(String.valueOf(uid2),keywordList);
                       //System.out.println("CORRECT" + String.valueOf(uid1) +","+ hashtag_score);
                     }
                   }
                   else if (type1.equals("both")){
-                    double keyword_score =phrasechecker(rt_txt+rp_txt,phrase,user_id,uid1,uid2,all_hashtags_1,all_hashtags_2,hashtag,info_1,info_2);
+                    List<String> keywordList = phrasechecker(rt_txt+rp_txt,phrase,user_id,uid1,uid2,all_hashtags_1,all_hashtags_2,hashtag,info_1,info_2);
+                    double keyword_score= Double.valueOf(keywordList.get(0));
                     if (String.valueOf(uid1).equals(user_id)){
                       keyword_score_map.put(String.valueOf(uid2),keyword_score);
+                      outputmap.put(String.valueOf(uid2),keywordList);
                       //System.out.println("CORRECT" + String.valueOf(uid2) +","+ hashtag_score);
                     }
                     else if (String.valueOf(uid2).equals(user_id)){
                       keyword_score_map.put(String.valueOf(uid1),keyword_score);
+                      outputmap.put(String.valueOf(uid2),keywordList);
                       //System.out.println("CORRECT" + String.valueOf(uid1) +","+ hashtag_score);
                     }
                   }
                 }
+
+                for (String key : hashing_score_map.keySet()){
+                  double finalscore = hashing_score_map.get(key) * keyword_score_map.get(key) * interaction_score_map.get(key);
+                  final_score_map.put(key, finalscore);
+                }
+
+
+
               }
-              System.out.println("HashMap in: "+Arrays.asList(hashing_score_map));
-              System.out.println("KeywordMap in: "+Arrays.asList(keyword_score_map));
+              HashMap<String, Double> final_map = sortByValue(final_score_map);
+              System.out.println("HashScoreMap in: "+Arrays.asList(hashing_score_map));
+              System.out.println("KeywordScoreMap in: "+Arrays.asList(keyword_score_map));
+              System.out.println("FinalMap in: "+Arrays.asList(final_score_map));
+              System.out.println("Sorted FinalMap in: "+Arrays.asList(final_map));
+              System.out.println("OutputMap in: "+Arrays.asList(outputmap));
+              for (String k : final_map.keySet()){
+                //String printout += (Arrays.toString(outputmap.get(k).toArray()));
+                System.out.println(outputmap.get(k));
+              }
               // hashtag score loop
               //client.close();
+
+
             });
           // interaction score loop
             //client.close();
@@ -174,7 +205,25 @@ public class TweetHandler {
         //client.close();
 
       });
-  return "INVALID";
+    return printout;
+    //return "INVALID";
+  }
+  // Ref: https://www.geeksforgeeks.org/sorting-a-hashmap-according-to-values/
+  public static HashMap<String, Double> sortByValue(HashMap<String, Double> hm)
+  {
+    // Create a list from elements of HashMap
+    List<Map.Entry<String, Double> > list = new LinkedList<Map.Entry<String, Double> >(hm.entrySet());
+
+    // Sort the list using lambda expression
+    Collections.sort(
+      list, (i1, i2) -> i1.getValue().compareTo(i2.getValue()));
+
+    // put data from sorted list to hashmap
+    HashMap<String, Double> temp = new LinkedHashMap<String, Double>();
+    for (Map.Entry<String, Double> aa : list) {
+      temp.put(aa.getKey(), aa.getValue());
+    }
+    return temp;
   }
   public int counter(String txt, String phrase){
     int matches = 0;
@@ -192,25 +241,36 @@ public class TweetHandler {
 
     return matches;
   }
-  public double phrasechecker(String txt_block , String phrase, String user_id, int uid1, int uid2, String all_hashtags_1, String all_hashtags_2, String hashtag, String info_1, String info_2){
+  public List<String> phrasechecker(String txt_block , String phrase, String user_id, int uid1, int uid2, String all_hashtags_1, String all_hashtags_2, String hashtag, String info_1, String info_2){
 //    int phrase_matches = StringUtils.countMatches(txt_block, phrase);
+    List<String> output = new ArrayList<String> ();
     all_hashtags_2 = all_hashtags_2.toLowerCase();
     all_hashtags_1 = all_hashtags_1.toLowerCase();
-
+    double keywords_score =0;
     int hash_matches=0;
     int phrase_matches = counter(txt_block,phrase);
     if (String.valueOf(uid1).equals(user_id)){
       hash_matches = counter(all_hashtags_2,hashtag);
-
+      int totalmatches = hash_matches+ phrase_matches;
+      keywords_score = 1 + log(totalmatches + 1);
+      output.add(String.valueOf(keywords_score));
+      output.add(String.valueOf(uid2));
+      output.add(info_2);
+      output.add(txt_block);
     }
     else if (String.valueOf(uid2).equals(user_id)){
       hash_matches = counter(all_hashtags_1,hashtag);
+      int totalmatches = hash_matches+ phrase_matches;
+      keywords_score = 1 + log(totalmatches + 1);
+      output.add(String.valueOf(keywords_score));
+      output.add(String.valueOf(uid1));
+      output.add(info_1);
+      output.add(txt_block);
     }
 
-    int totalmatches = hash_matches+ phrase_matches;
-    double keywords_score = 1 + log(totalmatches + 1);
 
-    return keywords_score;
+
+    return output;
 
   };
 }
