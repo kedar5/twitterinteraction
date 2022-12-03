@@ -7,9 +7,9 @@ import io.vertx.sqlclient.PoolOptions;
 import io.vertx.sqlclient.Row;
 import io.vertx.sqlclient.RowSet;
 import io.vertx.sqlclient.SqlClient;
-
 import java.util.*;
 
+import static io.netty.util.internal.StringUtil.length;
 import static java.lang.Math.log;
 
 public class TweetHandler {
@@ -29,14 +29,16 @@ public class TweetHandler {
   // Create the client pool
   SqlClient client = MySQLPool.pool(vertx, connectOptions, poolOptions);
 //  MySQLPool pool = MySQLPool.pool(vertx, connectOptions, poolOptions);
-  public String parse_search(String user_id,String type, String phrase, String hashtag) throws NullPointerException{
-    String values = (user_id +","+ type+","+phrase+","+hashtag);
+  public String parse_search(String user_id,String type1, String phrase, String hashtag) throws NullPointerException{
+    String values = (user_id +","+ type1+","+phrase+","+hashtag);
     System.out.println(values);
     client
       .query("SELECT DISTINCT uid1, uid2 FROM Data WHERE uid2=  "+user_id+" or uid1= "+user_id+" ;")
       .execute(ar -> {
         HashMap<String, Double> hashing_score_map = new HashMap<>();
         HashMap<String, Double> interaction_score_map = new HashMap<>();
+        HashMap<String, Double> keyword_score_map = new HashMap<>();
+
         ArrayList<String> alluserids = new ArrayList<String>();
         if (ar.succeeded()) {
           RowSet<Row> result = ar.result();
@@ -113,8 +115,55 @@ public class TweetHandler {
                     //System.out.println("CORRECT" + String.valueOf(uid1) +","+ hashtag_score);
                   }
                 }
+                for (Row row : result3) {
+                  int uid1 = row.getInteger(0);
+                  int uid2 = row.getInteger(1);
+                  String rt_txt =row.getString(2);
+                  String rp_txt =row.getString(3);
+                  String info_1 = row.getString(6);
+                  String info_2 = row.getString(8);
+                  String all_hashtags_1 = row.getString(7);
+                  String all_hashtags_2 = row.getString(9);
+                  if (type1.equals("reply")){
+                    double keyword_score = phrasechecker(rp_txt,phrase,user_id,uid1,uid2,all_hashtags_1,all_hashtags_2,hashtag,info_1,info_2 );
+                    if (String.valueOf(uid1).equals(user_id)){
+                      keyword_score_map.put(String.valueOf(uid2),keyword_score);
+                      //System.out.println("CORRECT" + String.valueOf(uid2) +","+ hashtag_score);
+                    }
+                    else if (String.valueOf(uid2).equals(user_id)){
+                      keyword_score_map.put(String.valueOf(uid1),keyword_score);
+                      //System.out.println("CORRECT" + String.valueOf(uid1) +","+ hashtag_score);
+                    }
+                  }
+                  else if (type1.equals("retweet")){
+                    double keyword_score = phrasechecker(rt_txt,phrase,user_id,uid1,uid2,all_hashtags_1,all_hashtags_2,hashtag,info_1,info_2);
+                    if (String.valueOf(uid1).equals(user_id)){
+                      keyword_score_map.put(String.valueOf(uid2),keyword_score);
+                      //System.out.println("CORRECT" + String.valueOf(uid2) +","+ hashtag_score);
+                    }
+                    else if (String.valueOf(uid2).equals(user_id)){
+                      keyword_score_map.put(String.valueOf(uid1),keyword_score);
+                      //System.out.println("CORRECT" + String.valueOf(uid1) +","+ hashtag_score);
+                    }
+                  }
+                  else if (type1.equals("both")){
+                    double keyword_score =phrasechecker(rt_txt+rp_txt,phrase,user_id,uid1,uid2,all_hashtags_1,all_hashtags_2,hashtag,info_1,info_2);
+                    if (String.valueOf(uid1).equals(user_id)){
+                      keyword_score_map.put(String.valueOf(uid2),keyword_score);
+                      //System.out.println("CORRECT" + String.valueOf(uid2) +","+ hashtag_score);
+                    }
+                    else if (String.valueOf(uid2).equals(user_id)){
+                      keyword_score_map.put(String.valueOf(uid1),keyword_score);
+                      //System.out.println("CORRECT" + String.valueOf(uid1) +","+ hashtag_score);
+                    }
+                  }
+                  else{
+                    return;
+                  }
+                }
               }
               System.out.println("HashMap in: "+Arrays.asList(hashing_score_map));
+              System.out.println("KeywordMap in: "+Arrays.asList(keyword_score_map));
               // hashtag score loop
               client.close();
             });
@@ -126,8 +175,45 @@ public class TweetHandler {
           System.out.println("Failure: " + ar.cause().getMessage());
         }
         client.close();
-      });
 
-    return values;
+      });
+  return "INVALID";
   }
+  public int counter(String txt, String phrase){
+    int matches = 0;
+    int lastIndex = 0;
+    if (length(txt) == 0){
+      return matches;
+    }
+    while (lastIndex != -1) {
+      lastIndex = txt.indexOf(phrase, lastIndex);
+      if (lastIndex != -1) {
+        matches++;
+        lastIndex += phrase.length();
+      }
+    }
+
+    return matches;
+  }
+  public double phrasechecker(String txt_block , String phrase, String user_id, int uid1, int uid2, String all_hashtags_1, String all_hashtags_2, String hashtag, String info_1, String info_2){
+//    int phrase_matches = StringUtils.countMatches(txt_block, phrase);
+    all_hashtags_2 = all_hashtags_2.toLowerCase();
+    all_hashtags_1 = all_hashtags_1.toLowerCase();
+
+    int hash_matches=0;
+    int phrase_matches = counter(txt_block,phrase);
+    if (String.valueOf(uid1).equals(user_id)){
+      hash_matches = counter(all_hashtags_2,hashtag);
+
+    }
+    else if (String.valueOf(uid2).equals(user_id)){
+      hash_matches = counter(all_hashtags_1,hashtag);
+    }
+
+    int totalmatches = hash_matches+ phrase_matches;
+    double keywords_score = 1 + log(totalmatches + 1);
+
+    return keywords_score;
+
+  };
 }
