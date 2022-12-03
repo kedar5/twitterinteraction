@@ -157,24 +157,21 @@ public class TweetHandler {
                       //System.out.println("CORRECT" + String.valueOf(uid1) +","+ hashtag_score);
                     }
                   }
-                  else{
-                    return;
-                  }
                 }
               }
               System.out.println("HashMap in: "+Arrays.asList(hashing_score_map));
               System.out.println("KeywordMap in: "+Arrays.asList(keyword_score_map));
               // hashtag score loop
-              client.close();
+              //client.close();
             });
           // interaction score loop
-            client.close();
+            //client.close();
           });
 
         } else {
           System.out.println("Failure: " + ar.cause().getMessage());
         }
-        client.close();
+        //client.close();
 
       });
   return "INVALID";
