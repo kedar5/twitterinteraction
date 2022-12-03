@@ -187,8 +187,10 @@ public class TweetHandler {
               System.out.println("Sorted FinalMap in: "+Arrays.asList(final_map));
               System.out.println("OutputMap in: "+Arrays.asList(outputmap));
               for (String k : final_map.keySet()){
-                //String printout += (Arrays.toString(outputmap.get(k).toArray()));
-                System.out.println(outputmap.get(k));
+                String h = (Arrays.toString(outputmap.get(k).toArray()));
+                
+                //System.out.println(outputmap.get(k));
+                System.out.println(h);
               }
               // hashtag score loop
               //client.close();
