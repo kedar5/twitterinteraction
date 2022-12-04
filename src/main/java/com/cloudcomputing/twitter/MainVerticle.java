@@ -16,10 +16,7 @@ import io.vertx.sqlclient.Row;
 import io.vertx.sqlclient.RowSet;
 import io.vertx.sqlclient.SqlClient;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 import static java.lang.Math.log;
 
@@ -95,7 +92,9 @@ public class MainVerticle extends AbstractVerticle {
             alluserids.add(String.valueOf(uid1));
           }
         }
-        System.out.println("All Ids: "+alluserids);
+        System.out.println("All Ids: "+alluserids.size());
+        HashSet<String> hset = new HashSet<String>(alluserids);
+        System.out.println("New Ids"+ hset);
         // Iterate through all user ids
 //        for (String u_id : alluserids){
 //          int rp_counter = 0;
