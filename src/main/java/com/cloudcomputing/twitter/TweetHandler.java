@@ -193,7 +193,7 @@ public class TweetHandler {
                 String description = outputmap.get(k).get(3);
                 String texter = outputmap.get(k).get(4);
                 String line = uid + '\t' +username+ '\t' +description+ '\t' +texter+ '\n';
-                printout[0] = line;
+                printout[0] += line;
                 System.out.println(line);
               }
               // hashtag score loop
@@ -215,8 +215,7 @@ public class TweetHandler {
     //return "INVALID";
   }
   // Ref: https://www.geeksforgeeks.org/sorting-a-hashmap-according-to-values/
-  public static HashMap<String, Double> sortByValue(HashMap<String, Double> hm)
-  {
+  public static HashMap<String, Double> sortByValue(HashMap<String, Double> hm){
     // Create a list from elements of HashMap
     List<Map.Entry<String, Double> > list = new LinkedList<Map.Entry<String, Double> >(hm.entrySet());
 
