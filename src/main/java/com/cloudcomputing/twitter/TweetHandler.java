@@ -211,6 +211,7 @@ public class TweetHandler {
         //client.close();
 
       });
+    System.out.println("OUTPUT >>"+printout[1]);
     return printout[0];
     //return "INVALID";
   }
