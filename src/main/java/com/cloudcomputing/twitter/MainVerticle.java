@@ -42,7 +42,7 @@ public class MainVerticle extends AbstractVerticle {
       }
     });
   }
-  private void getTweets(RoutingContext routingContext) {
+  private void getTweets(RoutingContext routingContext) throws NullPointerException{
     String user_id = routingContext.request().getParam("user_id");
     String type = routingContext.request().getParam("type");
     String phrase = routingContext.request().getParam("phrase");
@@ -51,8 +51,8 @@ public class MainVerticle extends AbstractVerticle {
     if (user_id == null ||type == null || phrase == null|| hashtag == null) {
       sendError(400, response);
     }
-    TweetHandler th = new TweetHandler();
-    DbHandler db = new DbHandler();
+//    TweetHandler th = new TweetHandler();
+//    DbHandler db = new DbHandler();
     logger.info(user_id);
     logger.info(type);
     logger.info(phrase);
@@ -82,6 +82,7 @@ public class MainVerticle extends AbstractVerticle {
         String resp = "TeamCloud,341275167549\n";
         System.out.println(ar.result());
         RowSet<Row> result = ar.result();
+        // Get list of all User Ids
         for (Row row : result) {
           int uid1 = row.getInteger(0);
           int uid2 = row.getInteger(1);
@@ -92,6 +93,7 @@ public class MainVerticle extends AbstractVerticle {
             alluserids.add(String.valueOf(uid1));
           }
         }
+        // Iterate through all user ids
         for (String u_id : alluserids){
           int rp_counter = 0;
           int rt_counter = 0;
@@ -101,10 +103,11 @@ public class MainVerticle extends AbstractVerticle {
             int uid2 = row.getInteger(1);
             String rt_txt =row.getString(2);
             String rp_txt =row.getString(3);
+
             if (String.valueOf(uid1).equals(u_id) || String.valueOf(uid2).equals(u_id)){
               //System.out.println("RT TEXTTTTTTTTTTT"+rt_txt+"\n"+rp_txt);
-              if (!rt_txt.equals("\"\"")){rt_counter++;}
-              else  if (!rp_txt.equals("\"\"")){ rp_counter ++;}
+              if (!rt_txt.equals("\"\"") && !rt_txt.equals(null)){rt_counter++;}
+              else  if (!rp_txt.equals("\"\"") && !rp_txt.equals(null)){ rp_counter ++;}
             }
           }
           //System.out.println("Scores : "+rt_counter+","+rp_counter);
