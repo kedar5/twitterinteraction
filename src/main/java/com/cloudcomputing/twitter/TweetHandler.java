@@ -30,7 +30,7 @@ public class TweetHandler {
   SqlClient client = MySQLPool.pool(vertx, connectOptions, poolOptions);
 //  MySQLPool pool = MySQLPool.pool(vertx, connectOptions, poolOptions);
   public String parse_search(String user_id,String type1, String phrase, String hashtag) throws NullPointerException{
-    final String[] printout = new String[1];
+    String[] printout = new String[10000];
     String values = (user_id +","+ type1+","+phrase+","+hashtag);
     System.out.println(values);
     HashMap<String, Double> hashing_score_map = new HashMap<>();
@@ -209,9 +209,10 @@ public class TweetHandler {
           System.out.println("Failure: " + ar.cause().getMessage());
         }
         //client.close();
+        System.out.println("OUTPUT 1>>"+printout[0]);
 
       });
-    System.out.println("OUTPUT >>"+printout[1]);
+    System.out.println("OUTPUT 2>>"+printout[0]);
     return printout[0];
     //return "INVALID";
   }
