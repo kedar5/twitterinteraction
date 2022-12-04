@@ -93,10 +93,6 @@ public class TweetHandler {
       output.add(txt_block);
     }
 
-
-    if (output.get(1).equals(null)){
-      System.out.println("YOOOOOOOOOOOOOOOOOOOO");
-    }
     return output;
 
   };
