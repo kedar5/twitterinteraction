@@ -43,9 +43,13 @@ public class DbHandler {
       if (ar.succeeded()){
         System.out.println(ar.result());
         RowSet<Row> result = ar.result();
-        hashing_score_map.put("k",2.0);
+        hashing_score_map.put("b",4.0);
       }
     });
+    if (res1.succeeded()){
+      RowSet<Row> result = res1.result();
+      hashing_score_map.put("k",2.0);
+    }
 
 //    ArrayList<String> alluserids = new ArrayList<String>();
 //    RowSet<Row> result = res1.result();
