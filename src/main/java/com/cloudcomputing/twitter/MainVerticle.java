@@ -222,15 +222,15 @@ public class MainVerticle extends AbstractVerticle {
         StringBuilder sb = new StringBuilder();
 
         for (String k : final_map.keySet()){
-          if ( outputmap.get(k).get(1) == null){
-            System.out.println("OMEGALUL BROOOOOOO");
+          if ( outputmap.get(k).get(1) != null){
+            String uid = outputmap.get(k).get(1);
+            String username = outputmap.get(k).get(2);
+            String description = outputmap.get(k).get(3);
+            String texter = outputmap.get(k).get(4);
+            String line = uid + '\t' +username+ '\t' +description+ '\t' +texter+ '\n';
+            sb.append(line);
           }
-          String uid = outputmap.get(k).get(1);
-          String username = outputmap.get(k).get(2);
-          String description = outputmap.get(k).get(3);
-          String texter = outputmap.get(k).get(4);
-          String line = uid + '\t' +username+ '\t' +description+ '\t' +texter+ '\n';
-          sb.append(line);
+
 
         }
         resp += sb;
