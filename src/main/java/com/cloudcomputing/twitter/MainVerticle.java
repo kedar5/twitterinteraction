@@ -106,8 +106,8 @@ public class MainVerticle extends AbstractVerticle {
 
             if (String.valueOf(uid1).equals(u_id) || String.valueOf(uid2).equals(u_id)){
               //System.out.println("RT TEXTTTTTTTTTTT"+rt_txt+"\n"+rp_txt);
-              if (!rt_txt.equals("\"\"") && !rt_txt.equals(null)){rt_counter++;}
-              else  if (!rp_txt.equals("\"\"") && !rp_txt.equals(null)){ rp_counter ++;}
+              if (!rt_txt.equals("\"\"") && rt_txt != null){rt_counter++;}
+              else  if (!rp_txt.equals("\"\"") && rp_txt != null){ rp_counter ++;}
             }
           }
           //System.out.println("Scores : "+rt_counter+","+rp_counter);
