@@ -282,9 +282,10 @@ public class TweetHandler {
       System.out.println("HI:  "+info_1);
       if (info_1.contains("%") && info_1.length()>1){
         String[] infoparts = info_1.split("%");
-
-        output.add(infoparts[0]);
-        output.add(infoparts[1]);
+        if (infoparts.length>1){
+          output.add(infoparts[0]);
+          output.add(infoparts[1]);
+        }
       }
       else{
         output.add("");
