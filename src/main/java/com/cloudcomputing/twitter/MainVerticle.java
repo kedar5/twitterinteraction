@@ -86,7 +86,7 @@ public class MainVerticle extends AbstractVerticle {
         for (Row row : result) {
           int uid1 = row.getInteger(0);
           int uid2 = row.getInteger(1);
-          System.out.println(uid1);
+
 
           if (String.valueOf(uid1).equals(user_id)){
             alluserids.add(String.valueOf(uid2));
@@ -95,6 +95,7 @@ public class MainVerticle extends AbstractVerticle {
             alluserids.add(String.valueOf(uid1));
           }
         }
+        System.out.println("All Ids: "+alluserids);
         // Iterate through all user ids
 //        for (String u_id : alluserids){
 //          int rp_counter = 0;
