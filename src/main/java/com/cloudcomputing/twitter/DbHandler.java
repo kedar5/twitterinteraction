@@ -42,22 +42,25 @@ public class DbHandler {
     res1.onComplete(ar ->{
       if (ar.succeeded()){
         System.out.println(ar.result());
-        ar.result();
+        RowSet<Row> result = ar.result();
+        hashing_score_map.put("k",2.0);
       }
     });
-    ArrayList<String> alluserids = new ArrayList<String>();
-    RowSet<Row> result = res1.result();
-    for (Row row : result) {
-      int uid1 = row.getInteger(0);
-      int uid2 = row.getInteger(1);
-      if (String.valueOf(uid1).equals(user_id)){
-        alluserids.add(String.valueOf(uid2));
-      }
-      else if (String.valueOf(uid2).equals(user_id)){
-        alluserids.add(String.valueOf(uid1));
-      }
-    }
-    System.out.println("Size :"+ alluserids.size());
+
+//    ArrayList<String> alluserids = new ArrayList<String>();
+//    RowSet<Row> result = res1.result();
+//    for (Row row : result) {
+//      int uid1 = row.getInteger(0);
+//      int uid2 = row.getInteger(1);
+//      if (String.valueOf(uid1).equals(user_id)){
+//        alluserids.add(String.valueOf(uid2));
+//      }
+//      else if (String.valueOf(uid2).equals(user_id)){
+//        alluserids.add(String.valueOf(uid1));
+//      }
+//    }
+    System.out.println("Size :"+Arrays.asList(hashing_score_map));
+    //System.out.println("Size :"+ alluserids.size());
     return "Invalid";
 
   }
