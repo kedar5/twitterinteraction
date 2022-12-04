@@ -46,7 +46,8 @@ public class DbHandler {
         hashing_score_map.put("b",4.0);
       }
     });
-    if (res1.succeeded()){
+
+    if (res1.isComplete()){
       RowSet<Row> result = res1.result();
       hashing_score_map.put("k",2.0);
     }
