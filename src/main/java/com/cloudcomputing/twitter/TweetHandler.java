@@ -194,25 +194,28 @@ public class TweetHandler {
                 String texter = outputmap.get(k).get(4);
                 String line = uid + '\t' +username+ '\t' +description+ '\t' +texter+ '\n';
                 printout[0] += line;
-                System.out.println(line);
+//                System.out.println(line);
+                System.out.println("OUTPUT 1>>"+printout[0]);
+
               }
               // hashtag score loop
               //client.close();
 
+              System.out.println("OUTPUT 1>>"+printout[0]);
 
             });
           // interaction score loop
             //client.close();
+            System.out.println("OUTPUT 2>>"+printout[0]);
+
           });
 
         } else {
           System.out.println("Failure: " + ar.cause().getMessage());
         }
         //client.close();
-        System.out.println("OUTPUT 1>>"+printout[0]);
-
       });
-    System.out.println("OUTPUT 2>>"+printout[0]);
+    System.out.println("OUTPUT 3>>"+printout[0]);
     return printout[0];
     //return "INVALID";
   }
