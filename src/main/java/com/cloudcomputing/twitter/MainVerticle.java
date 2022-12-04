@@ -86,6 +86,8 @@ public class MainVerticle extends AbstractVerticle {
         for (Row row : result) {
           int uid1 = row.getInteger(0);
           int uid2 = row.getInteger(1);
+          System.out.println(uid1);
+
           if (String.valueOf(uid1).equals(user_id)){
             alluserids.add(String.valueOf(uid2));
           }
@@ -94,27 +96,27 @@ public class MainVerticle extends AbstractVerticle {
           }
         }
         // Iterate through all user ids
-        for (String u_id : alluserids){
-          int rp_counter = 0;
-          int rt_counter = 0;
-
-          for (Row row : result){
-            int uid1 = row.getInteger(0);
-            int uid2 = row.getInteger(1);
-            String rt_txt =row.getString(2);
-            String rp_txt =row.getString(3);
-
-            if (String.valueOf(uid1).equals(u_id) || String.valueOf(uid2).equals(u_id)){
-              System.out.println("RT TEXTTTTTTTTTTT"+rt_txt+"\n"+rp_txt);
-              if (!rt_txt.equals("\"\"") && rt_txt != null){rt_counter++;}
-              else  if (!rp_txt.equals("\"\"") && rp_txt != null){ rp_counter ++;}
-            }
-          }
-          //System.out.println("Scores : "+rt_counter+","+rp_counter);
-          double interaction_score = log(1 + 2 * rp_counter + rt_counter);
-          //System.out.println("INTER : "+ interaction_score);
-          interaction_score_map.put(u_id,interaction_score);
-        }
+//        for (String u_id : alluserids){
+//          int rp_counter = 0;
+//          int rt_counter = 0;
+//
+//          for (Row row : result){
+//            int uid1 = row.getInteger(0);
+//            int uid2 = row.getInteger(1);
+//            String rt_txt =row.getString(2);
+//            String rp_txt =row.getString(3);
+//
+//            if (String.valueOf(uid1).equals(u_id) || String.valueOf(uid2).equals(u_id)){
+//              System.out.println("RT TEXTTTTTTTTTTT"+rt_txt+"\n"+rp_txt);
+//              if (!rt_txt.equals("\"\"") && rt_txt != null){rt_counter++;}
+//              else  if (!rp_txt.equals("\"\"") && rp_txt != null){ rp_counter ++;}
+//            }
+//          }
+//          //System.out.println("Scores : "+rt_counter+","+rp_counter);
+//          double interaction_score = log(1 + 2 * rp_counter + rt_counter);
+//          //System.out.println("INTER : "+ interaction_score);
+//          interaction_score_map.put(u_id,interaction_score);
+//        }
         resp += Arrays.asList(interaction_score_map);
         response.putHeader("content-type","application/json").end(resp.trim());
 
