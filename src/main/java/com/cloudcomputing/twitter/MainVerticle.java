@@ -80,7 +80,7 @@ public class MainVerticle extends AbstractVerticle {
     res1.onComplete(ar ->{
       if (ar.succeeded()){
         String resp = "TeamCloud,341275167549\n";
-        System.out.println(ar.result());
+//        System.out.println(ar.result());
         RowSet<Row> result = ar.result();
         // Get list of all User Ids
         for (Row row : result) {
@@ -105,7 +105,7 @@ public class MainVerticle extends AbstractVerticle {
             String rp_txt =row.getString(3);
 
             if (String.valueOf(uid1).equals(u_id) || String.valueOf(uid2).equals(u_id)){
-              //System.out.println("RT TEXTTTTTTTTTTT"+rt_txt+"\n"+rp_txt);
+              System.out.println("RT TEXTTTTTTTTTTT"+rt_txt+"\n"+rp_txt);
               if (!rt_txt.equals("\"\"") && rt_txt != null){rt_counter++;}
               else  if (!rp_txt.equals("\"\"") && rp_txt != null){ rp_counter ++;}
             }
