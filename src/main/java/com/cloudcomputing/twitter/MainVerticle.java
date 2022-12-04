@@ -229,9 +229,10 @@ public class MainVerticle extends AbstractVerticle {
           String texter = outputmap.get(k).get(4);
           String line = uid + '\t' +username+ '\t' +description+ '\t' +texter+ '\n';
           sb.append(line);
-          resp += sb;
-          response.putHeader("content-type","application/json").end(resp.trim());
+
         }
+        resp += sb;
+        response.putHeader("content-type","application/json").end(resp.trim());
 
       }
       else {
@@ -240,8 +241,6 @@ public class MainVerticle extends AbstractVerticle {
 
       }
     });
-
-
 
   }
 
