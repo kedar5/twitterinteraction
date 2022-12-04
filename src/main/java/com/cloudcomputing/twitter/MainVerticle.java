@@ -44,6 +44,7 @@ public class MainVerticle extends AbstractVerticle {
     logger.info(phrase);
     logger.info(hashtag);
     String resp = "TeamCloud,341275167549\n";
+
     resp += db.parse_search(user_id,type,phrase,hashtag);
     response.putHeader("content-type", "application/json").end(resp.trim());
   }

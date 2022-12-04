@@ -45,6 +45,19 @@ public class DbHandler {
         ar.result();
       }
     });
+    ArrayList<String> alluserids = new ArrayList<String>();
+    RowSet<Row> result = res1.result();
+    for (Row row : result) {
+      int uid1 = row.getInteger(0);
+      int uid2 = row.getInteger(1);
+      if (String.valueOf(uid1).equals(user_id)){
+        alluserids.add(String.valueOf(uid2));
+      }
+      else if (String.valueOf(uid2).equals(user_id)){
+        alluserids.add(String.valueOf(uid1));
+      }
+    }
+    System.out.println("Size :"+ alluserids.size());
     return "Invalid";
 
   }
