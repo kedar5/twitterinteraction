@@ -232,7 +232,7 @@ public class TweetHandler {
     }
     return temp;
   }
-  public int counter(String txt, String phrase){
+  public static int counter(String txt, String phrase){
     int matches = 0;
     int lastIndex = 0;
     if (length(txt) == 0){
@@ -248,7 +248,7 @@ public class TweetHandler {
 
     return matches;
   }
-  public List<String> phrasechecker(String txt_block , String phrase, String user_id, int uid1, int uid2, String all_hashtags_1, String all_hashtags_2, String hashtag, String info_1, String info_2) throws ArrayIndexOutOfBoundsException{
+  public static List<String> phrasechecker(String txt_block , String phrase, String user_id, int uid1, int uid2, String all_hashtags_1, String all_hashtags_2, String hashtag, String info_1, String info_2) throws ArrayIndexOutOfBoundsException{
 //    int phrase_matches = StringUtils.countMatches(txt_block, phrase);
     List<String> output = new ArrayList<String> ();
     all_hashtags_2 = all_hashtags_2.toLowerCase();
