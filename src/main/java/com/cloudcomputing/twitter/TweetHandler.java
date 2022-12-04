@@ -261,9 +261,15 @@ public class TweetHandler {
       keywords_score = 1 + log(totalmatches + 1);
       output.add(String.valueOf(keywords_score));
       output.add(String.valueOf(uid2));
-      String[] infoparts = info_2.split("%");
-      output.add(infoparts[0]);
-      output.add(infoparts[1]);
+      if (info_2.contains("%")){
+        String[] infoparts = info_2.split("%");
+        output.add(infoparts[0]);
+        output.add(infoparts[1]);
+      }
+      else{
+        output.add("");
+        output.add("");
+      }
       output.add(txt_block);
     }
     else if (String.valueOf(uid2).equals(user_id)){
@@ -272,9 +278,15 @@ public class TweetHandler {
       keywords_score = 1 + log(totalmatches + 1);
       output.add(String.valueOf(keywords_score));
       output.add(String.valueOf(uid1));
-      String[] infoparts = info_2.split("%");
-      output.add(infoparts[0]);
-      output.add(infoparts[1]);
+      if (info_1.contains("%")){
+        String[] infoparts = info_1.split("%");
+        output.add(infoparts[0]);
+        output.add(infoparts[1]);
+      }
+      else{
+        output.add("");
+        output.add("");
+      }
       output.add(txt_block);
     }
 
