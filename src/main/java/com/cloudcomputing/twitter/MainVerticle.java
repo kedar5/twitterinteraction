@@ -23,10 +23,12 @@ import static com.cloudcomputing.twitter.TweetHandler.sortByValue;
 import static java.lang.Math.log;
 
 public class MainVerticle extends AbstractVerticle {
+
   private static final Logger logger = LoggerFactory.getLogger(MainVerticle.class);
 
   @Override
   public void start(Promise<Void> startPromise) throws Exception {
+    new VertxOptions().setMaxWorkerExecuteTime(4000000000L);
     Router router = Router.router(vertx);
     router.route().handler(BodyHandler.create());
     router.get("/").handler(this::home);
@@ -42,7 +44,7 @@ public class MainVerticle extends AbstractVerticle {
     });
   }
   private void getTweets(RoutingContext routingContext) throws NullPointerException{
-    new VertxOptions().setMaxWorkerExecuteTime(4000000000L);
+
     String user_id = routingContext.request().getParam("user_id");
     String type = routingContext.request().getParam("type");
     String phrase = routingContext.request().getParam("phrase");
