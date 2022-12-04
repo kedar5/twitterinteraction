@@ -264,8 +264,10 @@ public class TweetHandler {
       output.add(String.valueOf(uid2));
       if (info_2.contains("%") && info_2.length()>1){
         String[] infoparts = info_2.split("%");
-        output.add(infoparts[0]);
-        output.add(infoparts[1]);
+        if (infoparts.length>1) {
+          output.add(infoparts[0]);
+          output.add(infoparts[1]);
+        }
       }
       else{
         output.add("");
@@ -279,7 +281,6 @@ public class TweetHandler {
       keywords_score = 1 + log(totalmatches + 1);
       output.add(String.valueOf(keywords_score));
       output.add(String.valueOf(uid1));
-      System.out.println("HI:  "+info_1);
       if (info_1.contains("%") && info_1.length()>1){
         String[] infoparts = info_1.split("%");
         if (infoparts.length>1){
