@@ -205,10 +205,12 @@ public class MainVerticle extends AbstractVerticle {
             }
           }
         }
-
-        for (String key : hashing_score_map.keySet()){
-          double finalscore = hashing_score_map.get(key) * keyword_score_map.get(key) * interaction_score_map.get(key);
-          final_score_map.put(key, finalscore);
+        //for (String key : hashing_score_map.keySet()){
+        for (String key : alluserids){
+          if (hashing_score_map.keySet().contains(key) && keyword_score_map.keySet().contains(key) && interaction_score_map.keySet().contains(key)){
+            double finalscore = hashing_score_map.get(key) * keyword_score_map.get(key) * interaction_score_map.get(key);
+            final_score_map.put(key, finalscore);
+          }
         }
 
         HashMap<String, Double> final_map = sortByValue(final_score_map);
