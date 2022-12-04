@@ -30,7 +30,7 @@ public class TweetHandler {
   SqlClient client = MySQLPool.pool(vertx, connectOptions, poolOptions);
 //  MySQLPool pool = MySQLPool.pool(vertx, connectOptions, poolOptions);
   public String parse_search(String user_id,String type1, String phrase, String hashtag) throws NullPointerException{
-    String printout = "";
+    final String printout = "";
     String values = (user_id +","+ type1+","+phrase+","+hashtag);
     System.out.println(values);
     HashMap<String, Double> hashing_score_map = new HashMap<>();
@@ -187,10 +187,14 @@ public class TweetHandler {
               System.out.println("Sorted FinalMap in: "+Arrays.asList(final_map));
               System.out.println("OutputMap in: "+Arrays.asList(outputmap));
               for (String k : final_map.keySet()){
-                String h = (Arrays.toString(outputmap.get(k).toArray()));
-                
-                //System.out.println(outputmap.get(k));
-                System.out.println(h);
+
+                String uid = outputmap.get(k).get(1);
+                String username = outputmap.get(k).get(2);
+                String description = outputmap.get(k).get(3);
+                String texter = outputmap.get(k).get(4);
+                String line = uid + '\t' +username+ '\t' +description+ '\t' +texter+ '\n';
+                //printout = line;
+                System.out.println(line);
               }
               // hashtag score loop
               //client.close();
@@ -257,7 +261,9 @@ public class TweetHandler {
       keywords_score = 1 + log(totalmatches + 1);
       output.add(String.valueOf(keywords_score));
       output.add(String.valueOf(uid2));
-      output.add(info_2);
+      String[] infoparts = info_2.split("%");
+      output.add(infoparts[0]);
+      output.add(infoparts[1]);
       output.add(txt_block);
     }
     else if (String.valueOf(uid2).equals(user_id)){
@@ -266,7 +272,9 @@ public class TweetHandler {
       keywords_score = 1 + log(totalmatches + 1);
       output.add(String.valueOf(keywords_score));
       output.add(String.valueOf(uid1));
-      output.add(info_1);
+      String[] infoparts = info_2.split("%");
+      output.add(infoparts[0]);
+      output.add(infoparts[1]);
       output.add(txt_block);
     }
 
