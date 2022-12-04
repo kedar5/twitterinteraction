@@ -251,32 +251,38 @@ public class TweetHandler {
   public static List<String> phrasechecker(String txt_block , String phrase, String user_id, int uid1, int uid2, String all_hashtags_1, String all_hashtags_2, String hashtag, String info_1, String info_2) throws ArrayIndexOutOfBoundsException{
 //    int phrase_matches = StringUtils.countMatches(txt_block, phrase);
     List<String> output = new ArrayList<String> ();
-    all_hashtags_2 = all_hashtags_2.toLowerCase();
-    all_hashtags_1 = all_hashtags_1.toLowerCase();
     double keywords_score =0;
     int hash_matches=0;
     int phrase_matches = counter(txt_block,phrase);
     if (String.valueOf(uid1).equals(user_id)){
-      hash_matches = counter(all_hashtags_2,hashtag);
-      int totalmatches = hash_matches+ phrase_matches;
-      keywords_score = 1 + log(totalmatches + 1);
-      output.add(String.valueOf(keywords_score));
-      output.add(String.valueOf(uid2));
-      if (info_2.contains("%") && info_2.length()>1){
-        String[] infoparts = info_2.split("%");
-        if (infoparts.length>1) {
-          output.add(infoparts[0]);
-          output.add(infoparts[1]);
+      if (all_hashtags_2 != null){
+        all_hashtags_2 = all_hashtags_2.toLowerCase();
+        hash_matches = counter(all_hashtags_2,hashtag);
+      }
+      else {hash_matches =0;}
+        int totalmatches = hash_matches+ phrase_matches;
+        keywords_score = 1 + log(totalmatches + 1);
+        output.add(String.valueOf(keywords_score));
+        output.add(String.valueOf(uid2));
+        if (info_2.contains("%") && info_2.length()>1){
+          String[] infoparts = info_2.split("%");
+          if (infoparts.length>1) {
+            output.add(infoparts[0]);
+            output.add(infoparts[1]);
+          }
         }
-      }
-      else{
-        output.add("");
-        output.add("");
-      }
-      output.add(txt_block);
+        else{
+          output.add("");
+          output.add("");
+        }
+        output.add(txt_block);
     }
     else if (String.valueOf(uid2).equals(user_id)){
-      hash_matches = counter(all_hashtags_1,hashtag);
+      if (all_hashtags_1 != null){
+        all_hashtags_1 = all_hashtags_1.toLowerCase();
+        hash_matches = counter(all_hashtags_1,hashtag);
+      }
+      else{hash_matches=0;}
       int totalmatches = hash_matches+ phrase_matches;
       keywords_score = 1 + log(totalmatches + 1);
       output.add(String.valueOf(keywords_score));
