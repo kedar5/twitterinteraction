@@ -94,7 +94,7 @@ public class MainVerticle extends AbstractVerticle {
         }
         System.out.println("All Ids: "+alluserids.size());
         HashSet<String> hset = new HashSet<String>(alluserids);
-        System.out.println("New Ids"+ hset);
+        System.out.println("New Ids"+ hset.size());
         // Iterate through all user ids
 //        for (String u_id : alluserids){
 //          int rp_counter = 0;
