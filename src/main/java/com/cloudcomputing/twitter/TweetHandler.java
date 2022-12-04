@@ -30,7 +30,7 @@ public class TweetHandler {
   SqlClient client = MySQLPool.pool(vertx, connectOptions, poolOptions);
 //  MySQLPool pool = MySQLPool.pool(vertx, connectOptions, poolOptions);
   public String parse_search(String user_id,String type1, String phrase, String hashtag) throws NullPointerException{
-    final String printout = "";
+    final String[] printout = new String[1];
     String values = (user_id +","+ type1+","+phrase+","+hashtag);
     System.out.println(values);
     HashMap<String, Double> hashing_score_map = new HashMap<>();
@@ -193,7 +193,7 @@ public class TweetHandler {
                 String description = outputmap.get(k).get(3);
                 String texter = outputmap.get(k).get(4);
                 String line = uid + '\t' +username+ '\t' +description+ '\t' +texter+ '\n';
-                //printout = line;
+                printout[0] = line;
                 System.out.println(line);
               }
               // hashtag score loop
@@ -211,7 +211,7 @@ public class TweetHandler {
         //client.close();
 
       });
-    return printout;
+    return printout[0];
     //return "INVALID";
   }
   // Ref: https://www.geeksforgeeks.org/sorting-a-hashmap-according-to-values/
