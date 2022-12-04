@@ -214,11 +214,11 @@ public class MainVerticle extends AbstractVerticle {
         }
 
         HashMap<String, Double> final_map = sortByValue(final_score_map);
-        System.out.println("HashScoreMap in: "+Arrays.asList(hashing_score_map));
-        System.out.println("KeywordScoreMap in: "+Arrays.asList(keyword_score_map));
-        System.out.println("FinalMap in: "+Arrays.asList(final_score_map));
-        System.out.println("Sorted FinalMap in: "+Arrays.asList(final_map));
-        System.out.println("OutputMap in: "+Arrays.asList(outputmap));
+//        System.out.println("HashScoreMap in: "+Arrays.asList(hashing_score_map));
+//        System.out.println("KeywordScoreMap in: "+Arrays.asList(keyword_score_map));
+//        System.out.println("FinalMap in: "+Arrays.asList(final_score_map));
+//        System.out.println("Sorted FinalMap in: "+Arrays.asList(final_map));
+//        System.out.println("OutputMap in: "+Arrays.asList(outputmap));
         StringBuilder sb = new StringBuilder();
 
         for (String k : final_map.keySet()){
