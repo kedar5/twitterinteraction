@@ -37,7 +37,7 @@ public class DbHandler {
     HashMap<String, Double> keyword_score_map = new HashMap<>();
     HashMap<String, Double> final_score_map = new HashMap<>();
     HashMap<String, List<String>> outputmap = new HashMap<>();
-    String sql ="SELECT DISTINCT uid1, uid2 FROM Data WHERE uid2=  "+user_id+" or uid1= "+user_id+" ;";
+    String sql ="SELECT * FROM Data WHERE uid2=  "+user_id+" or uid1= "+user_id+" ;";
     Future<RowSet<Row>> res1 = client.query(sql).execute();
     res1.onComplete(ar ->{
       if (ar.succeeded()){
@@ -48,6 +48,7 @@ public class DbHandler {
     });
 
     if (res1.isComplete()){
+      System.out.println("BROOOOOOOOOOOOOOOOOOOO");
       RowSet<Row> result = res1.result();
       hashing_score_map.put("k",2.0);
     }
