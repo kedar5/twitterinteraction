@@ -72,7 +72,7 @@ public class MainVerticle extends AbstractVerticle {
     HashMap<String, Double> final_score_map = new HashMap<>();
     HashMap<String, List<String>> outputmap = new HashMap<>();
     ArrayList<String> alluserids = new ArrayList<String>();
-    String sql ="SELECT DISTINCT uid1, uid2 FROM Data WHERE uid2=  "+user_id+" or uid1= "+user_id+" ;";
+    String sql ="SELECT *  FROM Data WHERE uid2=  "+user_id+" or uid1= "+user_id+" ;";
     Future<RowSet<Row>> res1 = client.query(sql).execute();
     res1.onComplete(ar ->{
       if (ar.succeeded()){
@@ -105,6 +105,7 @@ public class MainVerticle extends AbstractVerticle {
             int uid2 = row.getInteger(1);
             String rt_txt =row.getString(2);
             String rp_txt =row.getString(3);
+            System.out.println("RT TEXTTTTTTTTTTT"+rt_txt);
 
             if (String.valueOf(uid1).equals(u_id) || String.valueOf(uid2).equals(u_id)){
               //System.out.println("RT TEXTTTTTTTTTTT"+rt_txt+"\n"+rp_txt);
