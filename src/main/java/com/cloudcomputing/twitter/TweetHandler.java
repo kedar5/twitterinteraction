@@ -47,9 +47,6 @@ public class TweetHandler {
     int hash_matches = 0;
     int phrase_matches = counter(txt_block,phrase);
     if (String.valueOf(uid1).equals(user_id)){
-      if (String.valueOf(uid2) ==null){
-        System.out.println("ITS NULLLLL");
-      }
       if (all_hashtags_2 != null){
         all_hashtags_2 = all_hashtags_2.toLowerCase();
         hash_matches = counter(all_hashtags_2,hashtag);
@@ -73,9 +70,6 @@ public class TweetHandler {
         output.add(txt_block);
     }
     else if (String.valueOf(uid2).equals(user_id)){
-      if (String.valueOf(uid1) ==null){
-        System.out.println("ITS NULLLLL");
-      }
       if (all_hashtags_1 != null){
         all_hashtags_1 = all_hashtags_1.toLowerCase();
         hash_matches = counter(all_hashtags_1,hashtag);
@@ -100,7 +94,9 @@ public class TweetHandler {
     }
 
 
-
+    if (output.get(1).equals(null)){
+      System.out.println("YOOOOOOOOOOOOOOOOOOOO");
+    }
     return output;
 
   };

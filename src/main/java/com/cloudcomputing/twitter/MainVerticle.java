@@ -165,6 +165,9 @@ public class MainVerticle extends AbstractVerticle {
           if (type.equals("reply")){
             List<String> keywordList = phrasechecker(rp_txt,phrase,user_id,uid1,uid2,all_hashtags_1,all_hashtags_2,hashtag,info_1,info_2 );
             double keyword_score= Double.valueOf(keywordList.get(0));
+            if (keywordList.get(1).equals(null)){
+              System.out.println("YOOOdwedsOOOOOOOOOO");
+            }
             if (String.valueOf(uid1).equals(user_id)){
               keyword_score_map.put(String.valueOf(uid2),keyword_score);
               //System.out.println("CORRECT" + String.valueOf(uid2) +","+ hashtag_score);
@@ -179,6 +182,9 @@ public class MainVerticle extends AbstractVerticle {
           else if (type.equals("retweet")){
             List<String> keywordList = phrasechecker(rt_txt,phrase,user_id,uid1,uid2,all_hashtags_1,all_hashtags_2,hashtag,info_1,info_2);
             double keyword_score= Double.valueOf(keywordList.get(0));
+            if (keywordList.get(1).equals(null)){
+              System.out.println("YOOdfaeOOOOOOOOOOO");
+            }
             if (String.valueOf(uid1).equals(user_id)){
               keyword_score_map.put(String.valueOf(uid2),keyword_score);
               outputmap.put(String.valueOf(uid2),keywordList);
@@ -193,6 +199,9 @@ public class MainVerticle extends AbstractVerticle {
           else if (type.equals("both")){
             List<String> keywordList = phrasechecker(rt_txt+rp_txt,phrase,user_id,uid1,uid2,all_hashtags_1,all_hashtags_2,hashtag,info_1,info_2);
             double keyword_score= Double.valueOf(keywordList.get(0));
+            if (keywordList.get(1).equals(null)){
+              System.out.println("YsfssOOOOOOO");
+            }
             if (String.valueOf(uid1).equals(user_id)){
               keyword_score_map.put(String.valueOf(uid2),keyword_score);
               outputmap.put(String.valueOf(uid2),keywordList);
